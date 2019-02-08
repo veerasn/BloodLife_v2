@@ -12,18 +12,18 @@ namespace BloodLife.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class CartItem
+    public partial class Role
     {
-        public int CartItemID { get; set; }
-        public Nullable<int> CartID { get; set; }
-        public string ProductID { get; set; }
-        public Nullable<int> Quantity { get; set; }
-        public Nullable<decimal> Price { get; set; }
-        public string Indication { get; set; }
-        public string Alert { get; set; }
-        public string Notice { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Role()
+        {
+            this.Members = new HashSet<Member>();
+        }
     
-        public virtual Cart Cart { get; set; }
-        public virtual Item Item { get; set; }
+        public int RoleId { get; set; }
+        public string RoleName { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Member> Members { get; set; }
     }
 }

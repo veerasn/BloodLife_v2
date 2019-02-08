@@ -170,6 +170,21 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\BBOrder.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BBOrder.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BBOrder.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BBOrder.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BBOrder.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BBOrder.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\BBSEntitiesNew.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -196,7 +211,15 @@
     </Compile>
     <Compile Include="Models\BloodProduct.cs" />
     <Compile Include="Models\BloodProductModel.cs" />
-    <Compile Include="Models\CartItem.cs" />
+    <Compile Include="Models\Cart.cs">
+      <DependentUpon>BBOrder.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CartItem.cs">
+      <DependentUpon>BBOrder.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Category.cs">
+      <DependentUpon>BBOrder.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DICT_PRODUCTS.cs">
       <DependentUpon>BBSEntitiesNew.tt</DependentUpon>
     </Compile>
@@ -204,6 +227,9 @@
       <DependentUpon>BBSEntitiesNew.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Indication.cs" />
+    <Compile Include="Models\Item.cs">
+      <DependentUpon>BBOrder.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\LMD.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -219,6 +245,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LMD.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Member.cs">
+      <DependentUpon>BBOrder.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PATIENT.cs">
       <DependentUpon>LMD.tt</DependentUpon>
     </Compile>
@@ -230,6 +259,9 @@
     </Compile>
     <Compile Include="Models\REQUEST_PRODUCT.cs">
       <DependentUpon>BBSEntitiesNew.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Role.cs">
+      <DependentUpon>BBOrder.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TEST.cs">
       <DependentUpon>LMD.tt</DependentUpon>
@@ -291,6 +323,16 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Models\BBOrder.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BBOrder.edmx</DependentUpon>
+      <LastGenOutput>BBOrder.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\BBOrder.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BBOrder.edmx</DependentUpon>
+      <LastGenOutput>BBOrder.cs</LastGenOutput>
+    </Content>
     <Content Include="Models\BBSEntitiesNew.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>BBSEntitiesNew.edmx</DependentUpon>
@@ -416,6 +458,13 @@
     <Content Include="Content\pdf\GSH.pdf" />
     <Content Include="Content\pdf\Safe transfusion always.pdf" />
     <Content Include="Content\pdf\MSBOS.pdf" />
+    <EntityDeploy Include="Models\BBOrder.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>BBOrder.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\BBOrder.edmx.diagram">
+      <DependentUpon>BBOrder.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
