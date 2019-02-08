@@ -1,0 +1,1034 @@
+﻿<!DOCTYPE html>
+
+@using BloodLife.ViewModels
+@using BloodLife.Models
+@model IEnumerable<BloodLife.ViewModels.PatientProductViewModel>
+
+<html>
+<head>
+    <title>UMMC Blood Transfusion Information System</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/w3.css">
+    <link rel="stylesheet" href="~/Content/Site.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        html, body, h1, h2, h3, h4, h5 {
+            font-family: "Raleway", sans-serif
+        }
+    </style>
+
+    <script type="text/javascript" src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script type="text/html" src="~/Scripts/chart-2.7.1.min.js"></script>
+    <script src="~/Scripts/Chart.js"></script>
+    <script scr="~/Scripts/chartjs-plugin-annotation.js"></script>
+
+</head>
+
+<body class="w3-light-grey">
+
+    <!-- Top container -->
+    <div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
+        <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i>  Menu</button>
+        <span class="w3-bar-item w3-right">UMMC Blood Transfusion Information System</span>
+    </div>
+
+    <!-- Sidebar/menu -->
+    <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar">
+        <br>
+        <div class="w3-container w3-row">
+        </div>
+        <hr>
+        <div class="w3-container">
+            <h5>Dashboard</h5>
+        </div>
+        <div class="w3-bar-block">
+            <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
+            <a href="#" class="w3-bar-item w3-button w3-padding w3-blue"><i class="	fa fa-id-card-o"></i>  Review and request</a>
+            <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-heart"></i>  Obtain blood sample</a>
+            <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-file-text-o"></i>  Transfuse and monitor</a>
+            <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-cart-plus"></i>  Adverse event reporting</a>
+            <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-cart-plus"></i>  Transfusion lab results</a>
+            <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-credit-card fa-fw"></i>   Billing</a>
+            <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-info-circle"></i>  Guidelines</a>
+            <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-cog"></i>  Settings</a><br><br>
+        </div>
+    </nav>
+
+
+    <!-- Overlay effect when opening sidebar on small screens -->
+    <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+    <!-- !PAGE CONTENT! -->
+    <div class="w3-main" style="margin-left:300px;margin-top:43px;">
+
+        <!-- Header -->
+        <header class="w3-container" style="padding-top:22px">
+            <h5>
+                <b>
+                    <i class="fa fa-heart"></i> @Html.DisplayFor(model => model.FirstOrDefault().NAME) |
+                    RN: @Html.DisplayFor(model => model.FirstOrDefault().PATNUMBERSHORT) |
+                    DOB: @Html.DisplayFor(model => model.FirstOrDefault().BIRTHDATE)  |
+                    Sex: @Html.DisplayFor(model => model.FirstOrDefault().SEXLONG)
+                </b>
+            </h5>
+        </header>
+
+        <div class="w3-row-padding w3-margin-bottom">
+            <div class="w3-third">
+                <div class="w3-container w3-red w3-padding-16">
+                    <div class="w3-left">
+                        <div class="w3-clear"><h1><b>@Html.DisplayFor(model => model.FirstOrDefault().PATGROUP) </b></h1></div>
+                    </div>
+                    <div class="w3-right">
+                        @if (ViewBag.RhErr > 0 || ViewBag.AboErr > 0)
+                        {
+                            <img src="~/Content/img/error.png" style="width:64px;height:64px;" />
+                        }
+                        else
+                        {
+                            if (ViewBag.Abonum == 1)
+                            {
+                                <img src="~/Content/img/abo-not-ok.png" style="width:64px;height:64px;" />
+                            }
+                            else if (ViewBag.Abonum > 1)
+                            {
+                                <img src="~/Content/img/blood.png" style="width:64px;height:64px;" />
+                            }
+                            else
+                            {
+                                <img src="" style="width:64px;height:64px;" />
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="w3-third">
+                <div class="w3-container w3-blue w3-padding-16">
+                    <div class="w3-left">
+                        <div class="w3-clear"><h1><b>@Html.DisplayFor(model => model.FirstOrDefault().ABSHORT)</b></h1></div>
+                    </div>
+                    <div class="w3-right">
+                        @if (ViewBag.AbsErr > 0)
+                        {
+                            <img src="~/Content/img/alert.png" style="width:64px;height:64px;" />
+                        }
+                        else
+                        {
+                            <img src="~/Content/img/blood-donation.png" style="width:64px;height:64px;" />
+                        }
+
+                    </div>
+                </div>
+            </div>
+            <div class="w3-third">
+                <div class="w3-container w3-teal w3-padding-16">
+                    <div class="w3-left"><i class="fa fa-share-alt w3-xxxlarge"></i></div>
+                    <div class="w3-clear"></div>
+                    <h4>Alerts and special requirements</h4>
+                </div>
+            </div>
+        </div>
+        <div class="w3-container">
+            <div class="w3-row-padding w3-section w3-red">
+                <p><b>Current status of patient and ongoing testing</b></p>
+                <div>
+                    @if (ViewBag.RhErr > 0 || ViewBag.AboErr > 0)
+                    {
+                        <p>Discepancy in blood grouping identified. Please contact the transfusion laboratory if clarification required.</p>
+                    }
+                    else
+                    {
+                        if (ViewBag.Abonum > 1)
+                        {
+                            <p>Blood group confirmed based on two or more determinations.</p>
+                        }
+                        else if (ViewBag.Abonum == 1)
+                        {
+                            <p>Blood group based on single determination. Please submit second sample for confirmation.</p>
+                        }
+                        else
+                        {
+                            <p>No blood group records available.</p>
+                        }
+                    }
+                </div>
+                <div>
+                    @if (ViewBag.ReqValid > 0)
+                    {
+                        <img src="~/Content/img/blood-sample-valid.png" style="width:24px;height:24px;" />
+                        <img src="~/Content/img/ok.png" style="width:24px;height:24px;" />
+                        <sup>@ViewBag.ReqValidDate</sup>
+                    }
+                </div>
+                <div>
+                    @if (ViewBag.InReserve > 0)
+                    {
+                        <img src="~/Content/img/blood-bag.png" style="width:24px;height:24px;" />
+                        <sup>X @ViewBag.InReserve</sup>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!--LMD Results and charts-->
+        <!--Render charts for Hgb, Plt, INR and APT-->
+        <div class="w3-container">
+            @if (ViewBag.iHgb > 0)
+            {
+                <div class="w3-quarter">
+                    <canvas id="bar-chart-hgb" width="50" height="50"></canvas>
+                </div>
+            }
+            @if (ViewBag.iPlt > 0)
+            {
+                <div class="w3-quarter">
+                    <canvas id="bar-chart-plt" width="50" height="50"></canvas>
+                </div>
+            }
+            @if (ViewBag.iInr > 0)
+            {
+                <div class="w3-quarter">
+                    <canvas id="bar-chart-inr" width="50" height="50"></canvas>
+                </div>
+            }
+            @if (ViewBag.iApt > 0)
+            {
+                <div class="w3-quarter">
+                    <canvas id="bar-chart-apt" width="50" height="50"></canvas>
+                </div>
+            }
+        </div>
+
+        <!--Hb chart-->
+        @if (ViewBag.iHgb > 0)
+        {
+            <script type="text/javascript">
+                var hgb_x = @Html.Raw(Json.Encode(ViewBag.xHb))
+                var hgb_y = @Html.Raw(Json.Encode(ViewBag.yHb))
+                var mcv_y = @Html.Raw(Json.Encode(ViewBag.yMcv))
+
+                new Chart(document.getElementById("bar-chart-hgb"), {
+                    type: 'bar',
+                    data: {
+                        labels: hgb_x,
+                        datasets: [
+                            {
+                                label: "Hgb (g/L)",
+                                backgroundColor: "#ff6666",
+                                data: hgb_y
+                            },
+                            {
+                                label: "MCV (fl)",
+                                borderColor: "#cc0000",
+                                data: mcv_y,
+                                type: "line"
+                            }
+                        ]
+                    },
+                    options: {
+                        legend: { display: false },
+                        title: {
+                            display: true,
+                            text: "Haemoglobin (g/L)"
+                        },
+                        scales: {
+                            xAxes: [{
+                                display: true,
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Interval (days)'
+                                }
+
+                            }],
+                            yAxes: [{
+                                display: true,
+                                ticks: {
+                                    beginAtZero: true,
+                                    steps: 10,
+                                    stepValue: 5,
+                                    max:150
+                                }
+                            }],
+                        },
+                        annotation: {
+                            annotations: [{
+                                type: 'line',
+                                mode: 'horizontal',
+                                scaleID: 'y-axis-0',
+                                value: 80,
+                                borderColor: 'rgb(255,51,51)',
+                                borderWidth: 4,
+                                label: {
+                                    enabled: false,
+                                    content: 'Max limit'
+                                }
+                            }]
+                        }
+                    }
+                });
+            </script>
+        }
+
+        <!--Plt chart-->
+        @if (ViewBag.iPlt > 0)
+        {
+            <script tyep="text/javascript">
+                var plt_x = @Html.Raw(Json.Encode(ViewBag.xPlt))
+                var plt_y = @Html.Raw(Json.Encode(ViewBag.yPlt))
+
+                new Chart(document.getElementById("bar-chart-plt"), {
+                    type: 'bar',
+                    data: {
+                        labels: plt_x,
+                        datasets: [
+                            {
+                                label: "Platelet (x 10^9/L)",
+                                backgroundColor: "#ffb266",
+                                data: plt_y
+                            }
+                        ]
+                    },
+                    options: {
+                        legend: { display: false },
+                        title: {
+                            display: true,
+                            text: "Platelet (x 10^9/L)"
+                        },
+                        scales: {
+                            xAxes: [{
+                                display: true,
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Interval (days)'
+                                }
+
+                            }],
+                            yAxes: [{
+                                display: true,
+                                ticks: {
+                                    beginAtZero: true,
+                                    steps: 50,
+                                    stepValue: 10,
+                                    max:400
+                                }
+                            }],
+                        },
+                        annotation: {
+                            annotations: [{
+                                type: 'line',
+                                mode: 'horizontal',
+                                scaleID: 'y-axis-0',
+                                value: 20,
+                                borderColor: 'rgb(255,128,0)',
+                                borderWidth: 4,
+                                label: {
+                                    enabled: false,
+                                    content: 'Max limit'
+                                }
+                            }]
+                        }
+                    }
+                });
+            </script>
+        }
+
+        <!--INR chart-->
+        @if (ViewBag.iInr > 0)
+        {
+            <script tyep="text/javascript">
+                var inr_x = @Html.Raw(Json.Encode(ViewBag.xInr))
+                var inr_y = @Html.Raw(Json.Encode(ViewBag.yInr))
+
+                new Chart(document.getElementById("bar-chart-inr"), {
+                    type: 'bar',
+                    data: {
+                        labels: inr_x,
+                        datasets: [
+                            {
+                                label: "INR",
+                                backgroundColor: "#66b2ff",
+                                data: inr_y
+                            }
+                        ]
+                    },
+                    options: {
+                        legend: { display: false },
+                        title: {
+                            display: true,
+                            text: "INR"
+                        },
+                        scales: {
+                            xAxes: [{
+                                display: true,
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Interval (days)'
+                                }
+
+                            }],
+                            yAxes: [{
+                                display: true,
+                                ticks: {
+                                    beginAtZero: true,
+                                    steps: 1,
+                                    stepValue: 0.5,
+                                    max:6
+                                }
+                            }],
+                        },
+                        annotation: {
+                            annotations: [{
+                                type: 'line',
+                                mode: 'horizontal',
+                                scaleID: 'y-axis-0',
+                                value: 1,
+                                borderColor: 'rgb(0,128,255)',
+                                borderWidth: 4,
+                                label: {
+                                    enabled: false,
+                                    content: 'Max limit'
+                                }
+                            }]
+                        }
+                    }
+                });
+            </script>
+        }
+
+        <!--APT chart-->
+        @if (ViewBag.iApt > 0)
+        {
+            <script tyep="text/javascript">
+                var apt_x = @Html.Raw(Json.Encode(ViewBag.xApt))
+                var apt_y = @Html.Raw(Json.Encode(ViewBag.yApt))
+
+                new Chart(document.getElementById("bar-chart-apt"), {
+                    type: 'bar',
+                    data: {
+                        labels: apt_x,
+                        datasets: [
+                            {
+                                label: "APTT (sec)",
+                                backgroundColor: "#cc0066",
+                                data: apt_y
+                            }
+                        ]
+                    },
+                    options: {
+                        legend: { display: false },
+                        title: {
+                            display: true,
+                            text: "APTT (sec)"
+                        },
+                        scales: {
+                            xAxes: [{
+                                display: true,
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Interval (days)'
+                                }
+
+                            }],
+                            yAxes: [{
+                                display: true,
+                                ticks: {
+                                    beginAtZero: true,
+                                    steps: 10,
+                                    stepValue: 5,
+                                    max:60
+                                }
+                            }],
+                        },
+                        annotation: {
+                            annotations: [{
+                                type: 'line',
+                                mode: 'horizontal',
+                                scaleID: 'y-axis-0',
+                                value: 34,
+                                borderColor: 'rgb(0,0,255)',
+                                borderWidth: 4,
+                                label: {
+                                    enabled: false,
+                                    content: 'Max limit'
+                                }
+                            }]
+                        }
+                    }
+                });
+            </script>
+        }
+
+        <!-- Review results and transfusions -->
+        <div class="w3-container">
+            <div class="panel-group" id="accordion-review">
+                <!-- Requests and results -->
+                <div class="w3-panel w3-gray panel-default">
+                    <div class="panel-heading">
+                        <h5 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion-review" href="#collapse1">Requests and results (@ViewBag.TestCount)</a>
+                        </h5>
+                    </div>
+                    <div id="collapse1" class="panel-collapse collapse">
+                        <div class="panel-body w3-light-gray">
+                            @if (ViewBag.TestCount > 0)
+                            {
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Date </th>
+                                            <th></th>
+                                            <th>ABO</th>
+                                            <th>Rh</th>
+                                            <th>DAT</th>
+                                            <th>Ab screen</th>
+                                            <th>Ab ID</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{var res = ViewData["TestResults"] as string[,];
+                                            for (int row = 0; row < res.GetLength(0); row++)
+                                            {
+                                                <tr>
+                                                    @for (int column = 0; column < res.GetLength(1); column++)
+                                                    {
+                                                        switch (column)
+                                                        {
+                                                            case 2:
+                                                                if (res[row, column] != null)
+                                                                {
+                                                                    <td><img src="~/Content/img/blood-sample.png" style="width:16px;height:16px;" /><sup>@res[row, column]</sup></td>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <td>@res[row, column]</td>
+                                                                };
+                                                                break;
+
+                                                            case 6:
+                                                                if (res[row, column] != null && res[row, column].Contains("POS"))
+                                                                {
+                                                                    <td><b><font color="red">@res[row, column]</font></b></td>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <td>@res[row, column]</td>
+                                                                };
+                                                                break;
+
+                                                            case 7:
+                                                                if (res[row, column] != null)
+                                                                {
+                                                                    <td><img src="~/Content/img/warning.png" style="width:16px;height:16px;" /></td>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <td>@res[row, column]</td>
+                                                                };
+                                                                break;
+
+                                                            default:
+                                                                <td>@res[row, column]</td>
+                                                                break;
+                                                        }
+                                                    }
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <!-- Red Cells -->
+                <div class="w3-panel w3-gray panel-default">
+                    <div class="panel-heading">
+                        <h5 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion-review" href="#collapse2">Red blood cells (@ViewBag.Rccount)  </a>
+                            @if (ViewBag.Rccount > 0)
+                            {
+                                <img src="~/Content/img/crossmatch.png" style="vertical-align:top;width:20px;height:20px;" /> @ViewBag.Reserved
+                                <img src="~/Content/img/gift.png" style="width:16px;height:16px;" /> @ViewBag.Issued
+                                <img src="~/Content/img/transfuse-ok.png" style="width:16px;height:16px;" /> @ViewBag.Transfused
+                                <img src="~/Content/img/return-blood.png" style="width:16px;height:16px;" /> @ViewBag.Returned
+                                <img src="~/Content/img/sick.png" style="width:16px;height:16px;" /> @ViewBag.Reaction
+                            }
+                        </h5>
+                    </div>
+                    <div id="collapse2" class="panel-collapse collapse">
+                        <div class="panel-body w3-light-gray">
+                            @if (ViewBag.Rccount > 0)
+                            {
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Request Time & Date</th>
+                                            <th>RC Type</th>
+                                            <th>Pack ID</th>
+                                            <th>History</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            if (item.PRODNUM != null && item.PRODCODE.Substring(0, 2) == "RC")
+                                            {
+                                                <tr>
+                                                    <td>@item.ACCESSNUMBER</td>
+                                                    <td>@Html.DisplayFor(modelItem => item.REQDATE)</td>
+                                                    <td>@item.PRODCODE</td>
+                                                    <td>@item.PRODNUM</td>
+
+                                                    <td>
+                                                        @if (item.RESERVDATE != null && item.ReservIntDay < 8)
+                                                        {
+                                                            <img src="~/Content/img/reserve.png" style="vertical-align:top;width:20px;height:20px;" />
+                                                            <sup>@item.RESERVDATE.Value.ToString("HH:mm") d:@item.ReservIntDay</sup>
+                                                        }
+
+                                                        @if (item.XMATCHDATE != null && item.XmatchIntDay < 8)
+                                                        {
+                                                            <img src="~/Content/img/crossmatch.png" style="vertical-align:top;width:20px;height:20px;" />
+                                                            <sup>@item.XMATCHDATE.Value.ToString("HH:mm") d:@item.XmatchIntDay</sup>
+                                                        }
+                                                        @if (item.ISSUEDATE != null && item.IssueIntDay < 8)
+                                                        {
+                                                            <img src="~/Content/img/gift.png" style="vertical-align:top;width:20px;height:20px;" />
+                                                            <sup>@item.ISSUEDATE.Value.ToString("HH:mm") d:@item.IssueIntDay</sup>
+                                                        }
+                                                        @if (item.RETURNDATE != null && item.ReturnIntDay < 8)
+                                                        {
+                                                            <img src="~/Content/img/return-blood.png" style="vertical-align:top;width:20px;height:20px;" />
+                                                            <sup>@item.RETURNDATE.Value.ToString("HH:mm") d:@item.ReturnIntDay</sup>
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        @if (item.TRANSREACTION != null)
+                                                        {
+                                                            <img src="~/Content/img/sick.png" style="vertical-align:top;width:20px;height:20px;" />
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <!-- Platelets -->
+                <div class="w3-panel w3-gray panel-default">
+                    <div class="panel-heading">
+                        <h5 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion-review" href="#collapse3">Platelets (@ViewBag.Plcount)</a>
+
+                            @if (ViewBag.Plcount > 0)
+                            {
+                                <img src="~/Content/img/gift.png" style="width:16px;height:16px;" /> @ViewBag.PlIssued
+                                <img src="~/Content/img/transfuse-ok.png" style="width:16px;height:16px;" /> @ViewBag.PlTransfused
+                                <img src="~/Content/img/return-blood.png" style="width:16px;height:16px;" /> @ViewBag.PlReturned
+                                <img src="~/Content/img/sick.png" style="width:16px;height:16px;" /> @ViewBag.Reaction
+                            }
+                        </h5>
+                    </div>
+                    <div id="collapse3" class="panel-collapse collapse">
+                        <div class="panel-body w3-light-gray">
+                            @if (ViewBag.Plcount > 0)
+                            {
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Request Date</th>
+                                            <th>Time</th>
+                                            <th>RC Type</th>
+                                            <th>Pack ID</th>
+                                            <th>History</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            if (item.PRODNUM != null && item.PRODCODE.Substring(0, 2) == "PL")
+                                            {
+                                                <tr>
+                                                    <td>@item.ACCESSNUMBER</td>
+                                                    <td>@Html.DisplayFor(modelItem => item.REQDATE)</td>
+                                                    <td>@item.PRODCODE</td>
+                                                    <td>@item.PRODNUM</td>
+                                                    <td>
+                                                        @if (item.RESERVDATE != null && item.ReservIntDay < 8)
+                                                        {
+                                                            <img src="~/Content/img/reserve.png" style="vertical-align:top;width:20px;height:20px;" />
+                                                            <sup>@item.RESERVDATE.Value.ToString("HH:mm") d:@item.ReservIntDay</sup>
+                                                        }
+
+                                                        @if (item.XMATCHDATE != null && item.XmatchIntDay < 8)
+                                                        {
+                                                            <img src="~/Content/img/crossmatch.png" style="vertical-align:top;width:20px;height:20px;" />
+                                                            <sup>@item.XMATCHDATE.Value.ToString("HH:mm") d:@item.XmatchIntDay</sup>
+                                                        }
+                                                        @if (item.ISSUEDATE != null && item.IssueIntDay < 8)
+                                                        {
+                                                            <img src="~/Content/img/gift.png" style="vertical-align:top;width:20px;height:20px;" />
+                                                            <sup>@item.ISSUEDATE.Value.ToString("HH:mm") d:@item.IssueIntDay</sup>
+                                                        }
+                                                        @if (item.RETURNDATE != null && item.ReturnIntDay < 8)
+                                                        {
+                                                            <img src="~/Content/img/return-blood.png" style="vertical-align:top;width:20px;height:20px;" />
+                                                            <sup>@item.RETURNDATE.Value.ToString("HH:mm") d:@item.ReturnIntDay</sup>
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        @if (item.TRANSREACTION != null)
+                                                        {
+                                                            <img src="~/Content/img/sick.png" style="vertical-align:top;width:20px;height:20px;" />
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <!-- Plasma products -->
+                <div class="w3-panel w3-gray panel-default">
+                    <div class="panel-heading">
+                        <h5 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion-review" href="#collapse4">Plasma products (@ViewBag.Fpcount)</a>
+
+                            @if (ViewBag.Fpcount > 0)
+                            {
+                                <img src="~/Content/img/gift.png" style="width:16px;height:16px;" /> @ViewBag.FpIssued
+                                <img src="~/Content/img/transfuse-ok.png" style="width:16px;height:16px;" /> @ViewBag.FpTransfused
+                                <img src="~/Content/img/return-blood.png" style="width:16px;height:16px;" /> @ViewBag.FpReturned
+                                <img src="~/Content/img/sick.png" style="width:16px;height:16px;" /> @ViewBag.Reaction
+                            }
+                        </h5>
+                    </div>
+                    <div id="collapse4" class="panel-collapse collapse">
+                        <div class="panel-body w3-light-gray">
+                            @if (ViewBag.Fpcount > 0)
+                            {
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Request Date</th>
+                                            <th>Time</th>
+                                            <th>RC Type</th>
+                                            <th>Pack ID</th>
+                                            <th>History</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            if (item.PRODNUM != null && (item.PRODCODE.Substring(0, 2) == "FF" || item.PRODCODE.Substring(0, 2) == "CR"))
+                                            {
+                                                <tr>
+                                                    <td>@item.ACCESSNUMBER</td>
+                                                    <td>@Html.DisplayFor(modelItem => item.REQDATE)</td>
+                                                    <td>@item.PRODCODE</td>
+                                                    <td>@item.PRODNUM</td>
+
+                                                    <td>
+                                                        @if (item.RESERVDATE != null && item.ReservIntDay < 8)
+                                                        {
+                                                            <img src="~/Content/img/reserve.png" style="vertical-align:top;width:20px;height:20px;" />
+                                                            <sup>@item.RESERVDATE.Value.ToString("HH:mm") d:@item.ReservIntDay</sup>
+                                                        }
+
+                                                        @if (item.XMATCHDATE != null && item.XmatchIntDay < 8)
+                                                        {
+                                                            <img src="~/Content/img/crossmatch.png" style="vertical-align:top;width:20px;height:20px;" />
+                                                            <sup>@item.XMATCHDATE.Value.ToString("HH:mm") d:@item.XmatchIntDay</sup>
+                                                        }
+                                                        @if (item.ISSUEDATE != null && item.IssueIntDay < 8)
+                                                        {
+                                                            <img src="~/Content/img/gift.png" style="vertical-align:top;width:20px;height:20px;" />
+                                                            <sup>@item.ISSUEDATE.Value.ToString("HH:mm") d:@item.IssueIntDay</sup>
+                                                        }
+                                                        @if (item.RETURNDATE != null && item.ReturnIntDay < 8)
+                                                        {
+                                                            <img src="~/Content/img/return-blood.png" style="vertical-align:top;width:20px;height:20px;" />
+                                                            <sup>@item.RETURNDATE.Value.ToString("HH:mm") d:@item.ReturnIntDay</sup>
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        @if (item.TRANSREACTION != null)
+                                                        {
+                                                            <img src="~/Content/img/sick.png" style="vertical-align:top;width:20px;height:20px;" />
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2></h2>
+
+        <!--Tabs for selection of requests-->
+        <div class="w3-container">
+            <div class="w3-row">
+                <a href="javacript:void(0)" onclick="openRequest(event, 'Test');">
+                    <div class="w3-quarter tablink w3-bottombar w3-hover-grey w3-padding">Tests</div>
+                </a>
+                <a href="javacript:void(0)" onclick="openRequest(event, 'Rbc');">
+                    <div class="w3-quarter tablink w3-bottombar w3-hover-grey w3-padding">Red Cells</div>
+                </a>
+                <a href="javacript:void(0)" onclick="openRequest(event, 'Platelet');">
+                    <div class="w3-quarter tablink w3-bottombar w3-hover-grey w3-padding">Platelets</div>
+                </a>
+                <a href="javacript:void(0)" onclick="openRequest(event, 'Plasma');">
+                    <div class="w3-quarter tablink w3-bottombar w3-hover-grey w3-padding">Plasma Products</div>
+                </a>
+
+                <!--Test requests-->
+                <div id="Test" class="w3-container request" style="display:none">
+                    <h4>Panel for tests</h4>
+                </div>
+                <!--Red cell requests-->
+                <div id="Rbc" class="w3-container request" style="display:none">
+                    <h6>
+                        Select suitable products and required quantity. Remember that the minimum number of RBC units should be transfused to
+                        achieve the desired response. Refer to <a href="~/Content/pdf/RBC_recommendation.pdf" target="_blank"><b>Guidelines for Red Cell Use</b></a> to aid your transfusion decision.
+                    </h6>
+                    <p id="alert_redcell" style="color: orangered"></p>
+                    <p id="notice_hb" style="color: red">@ViewBag.cHgb</p>
+                    <p id="notice_mcv" style="color: red">@ViewBag.cMcv</p>
+                    <div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Quantity</th>
+                                    <th>Code</th>
+                                    <th>Product Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (BloodProduct bloodProduct in ViewBag.bloodProducts)
+                                {
+                                    if (bloodProduct.Id.Substring(0, 2).Contains("RC") &&
+                                        (Model.FirstOrDefault().AGE >= bloodProduct.Lowerage && Model.FirstOrDefault().AGE <= bloodProduct.Upperage))
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.Editor(bloodProduct.Id, new {
+                                               htmlAttributes = new { @Name = "RC", onchange = "showIndication('RC')", type = "number", min = "0", max = "6", @Value = "0", @class = "form-control" }
+                                           })
+                                            </td>
+                                            <td>
+                                                @bloodProduct.Id
+                                            </td>
+                                            <td>
+                                                @bloodProduct.Name
+                                                @if (bloodProduct.Filelocation != "none")
+                                                {
+                                                    <a href="@bloodProduct.Filelocation" target="_blank">
+                                                        <sup><i class="fa-info-circle"></i>info</sup>
+                                                    </a>
+                                                }
+                                                @if (bloodProduct.Irradiate == 1)
+                                                {
+                                                    <img src="~/Content/img/radiation.png" style="width:12px;height:12px;" />
+                                                }
+                                                @if (bloodProduct.Leucodeplete == 1)
+                                                {
+                                                    <img src="~/Content/img/funnel.png" style="width:12px;height:12px;" />
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="RC" style="display:none">
+                        <h6>Please provide the most appropriate indication for the red cell request</h6>
+                        <div class="w3-container w3-white">
+                            <table class="table">
+                                <tr>
+                                    <td><input type="radio" name="redcell" value="RC1"  onchange="checkIndication(75, @ViewBag.yHb[0], 'redcell')" /></td>
+                                    <td>Hb &#8804 70g/L in a hemodynamically stable ICU patient.</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="radio" name="redcell" value="RC2" onchange="checkIndication(85, @ViewBag.yHb[0], 'redcell')" /></td>
+                                    <td>Hb &#8804 80g/L in a non- ICU patient with symptomatic anaemia.</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="radio" name="redcell" value="RC3" onchange="checkIndication(105, @ViewBag.yHb[0], 'redcell')" /></td>
+                                    <td>Hb &#8804 100g/L in a patient experiencing acute ischaemiac cardiovascular disease (e.g. angina pectoris, acute myocardial infarction).</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="radio" name="redcell" value="RC4" onchange="checkIndication(150, @ViewBag.yHb[0], 'redcell')" /></td>
+                                    <td>Acute bleeding with hemodynamic instability requiring urgent RBC transfusion.</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="radio" name="redcell" value="RC5" onchange="checkIndication(150, @ViewBag.yHb[0], 'redcell')"/></td>
+                                    <td>Regular red cell transfusion in a transfusion dependant patient (e.g. thalassaemia major).</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="radio" name="redcell" value="RC6" onchange="checkIndication(150, @ViewBag.yHb[0], 'redcell')"/></td>
+                                    <td>Others</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!--Platelet requests-->
+                <div id="Platelet" class="w3-container request" style="display:none">
+                    @Html.Partial("_ChooseProductPlt")
+                    @Html.Partial("_ChooseProductHla")
+                </div>
+                <!--Plasma products and derivatives requests-->
+                <div id="Plasma" class="w3-container request" style="display:none">
+                    <h6>
+                        Select suitable products and required quantity. Refer to <a href="#"><b>Guidelines for FFP Transfusions</b></a> to aid your transfusion decision.
+                    </h6>
+                    @Html.Partial("_ChooseProductFfp")
+                    @Html.Partial("_ChooseProductCpt")
+                    @Html.Partial("_ChooseProductCsp")
+                    @Html.Partial("_ChooseProductRh")
+                    @Html.Partial("_ChooseProductCC3")
+                    @Html.Partial("_ChooseProductCC4")
+                    @Html.Partial("_ChooseProductF8")
+                    @Html.Partial("_ChooseProductF7a")
+                </div>
+            </div>
+        </div>
+
+
+
+        <br>
+        <div class="w3-container w3-dark-grey w3-padding-32">
+            <div class="w3-row">
+                <div class="w3-container w3-third">
+                    <h5 class="w3-bottombar w3-border-green">Demographics</h5>
+                </div>
+                <div class="w3-container w3-third">
+                    <h5 class="w3-bottombar w3-border-red">Blood Stock Levels</h5>
+                </div>
+                <div class="w3-container w3-third">
+                    <h5 class="w3-bottombar w3-border-orange">Guidelines</h5>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="w3-container w3-padding-16 w3-light-grey">
+            <h4>USE BLOOD WISELY</h4>
+            <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+        </footer>
+
+        <!-- End page content -->
+    </div>
+
+    <script>
+        // Get the Sidebar
+        var mySidebar = document.getElementById("mySidebar");
+
+        // Get the DIV with overlay effect
+        var overlayBg = document.getElementById("myOverlay");
+
+        // Toggle between showing and hiding the sidebar, and add overlay effect
+        function w3_open() {
+            if (mySidebar.style.display === 'block') {
+                mySidebar.style.display = 'none';
+                overlayBg.style.display = "none";
+            } else {
+                mySidebar.style.display = 'block';
+                overlayBg.style.display = "block";
+            }
+        }
+
+        // Close the sidebar with the close button
+        function w3_close() {
+            mySidebar.style.display = "none";
+            overlayBg.style.display = "none";
+        }
+    </script>
+
+    <script>
+        //Open and close request tabs
+        function openRequest(evt, requestName) {
+            var i, x, tablinks;
+            x = document.getElementsByClassName("request");
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablink");
+            for (i = 0; i < x.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" w3-border-red", "");
+            }
+            document.getElementById(requestName).style.display = "block";
+            evt.currentTarget.firstElementChild.className += " w3-border-red";
+        }
+    </script>
+
+    <script>
+        //Show indication
+        function showIndication(val) {
+            var vis = "none";
+            var cnt = 0;
+            var inp = document.getElementsByName(val);
+            for (i = 0; i < inp.length; i++) {
+                cnt = cnt + parseInt(inp[i].value);
+            }
+            if (cnt != 0) {
+                vis = "block"
+            }
+            else {
+                vis = "none";
+            }
+            document.getElementById(val).style.display = vis;
+        }
+    </script>
+
+    <script>
+        //Validate radio-button for red cell indications
+        function checkIndication(a,b,c) {
+            var radios = document.getElementsByName(c);
+            var fback;
+            for (var i = 0; i < radios.length; i++) {
+                if (b > a) {
+                    fback = "You have chosen to transfuse at a target Hb of " + a + " but the patient's last Hb was " + b + " g/L.";
+                }
+                else {
+                    fback = "";
+                }
+                if (b == 0) {
+                    fback = "Red cell request has been made with no prior Hb results."
+                }
+            }
+            if (c == "redcell") {
+                document.getElementById("alert_redcell").innerHTML = fback;
+            }
+            else if (c == "platelet") {
+                document.getElementById("alert_platelet").innerHTML = fback;
+            }
+        }
+    </script>
+
+    <!--script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></!--script-->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+
+
+</body>
+</html>
