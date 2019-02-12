@@ -30,6 +30,7 @@ namespace BloodLife.Models
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Item> Items { get; set; }
         public virtual DbSet<Member> Members { get; set; }
+        public virtual DbSet<MemberRole> MemberRoles { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
     }
 }

@@ -82,11 +82,11 @@
         </EntityType>
         <EntityType Name="MemberRole">
           <Key>
-            <PropertyRef Name="MemberId" />
-            <PropertyRef Name="RoleId" />
+            <PropertyRef Name="MemberRoleId" />
           </Key>
-          <Property Name="MemberId" Type="int" Nullable="false" />
-          <Property Name="RoleId" Type="int" Nullable="false" />
+          <Property Name="MemberRoleId" Type="int" Nullable="false" />
+          <Property Name="MemberId" Type="int" />
+          <Property Name="RoleId" Type="int" />
         </EntityType>
         <EntityType Name="Roles">
           <Key>
@@ -119,20 +119,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Product__Categor__4BAC3F29">
-          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
-          <End Role="Item" Type="Self.Item" Multiplicity="*" />
+        <Association Name="FK__MemberRol__Membe__5CD6CB2B">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="MemberRole" Type="Self.MemberRole" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Category">
-              <PropertyRef Name="CategoryId" />
+            <Principal Role="Member">
+              <PropertyRef Name="MemberId" />
             </Principal>
-            <Dependent Role="Item">
-              <PropertyRef Name="CategoryId" />
+            <Dependent Role="MemberRole">
+              <PropertyRef Name="MemberId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UserRole__RoleId__5812160E">
-          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+        <Association Name="FK__MemberRol__RoleI__5DCAEF64">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
           <End Role="MemberRole" Type="Self.MemberRole" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Roles">
@@ -143,15 +143,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UserRole__UserId__571DF1D5">
-          <End Role="Member" Type="Self.Member" Multiplicity="1" />
-          <End Role="MemberRole" Type="Self.MemberRole" Multiplicity="*" />
+        <Association Name="FK__Product__Categor__4BAC3F29">
+          <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
+          <End Role="Item" Type="Self.Item" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Member">
-              <PropertyRef Name="MemberId" />
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryId" />
             </Principal>
-            <Dependent Role="MemberRole">
-              <PropertyRef Name="MemberId" />
+            <Dependent Role="Item">
+              <PropertyRef Name="CategoryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -171,17 +171,17 @@
             <End Role="Item" EntitySet="Item" />
             <End Role="CartItems" EntitySet="CartItems" />
           </AssociationSet>
-          <AssociationSet Name="FK__Product__Categor__4BAC3F29" Association="Self.FK__Product__Categor__4BAC3F29">
-            <End Role="Category" EntitySet="Category" />
-            <End Role="Item" EntitySet="Item" />
+          <AssociationSet Name="FK__MemberRol__Membe__5CD6CB2B" Association="Self.FK__MemberRol__Membe__5CD6CB2B">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="MemberRole" EntitySet="MemberRole" />
           </AssociationSet>
-          <AssociationSet Name="FK__UserRole__RoleId__5812160E" Association="Self.FK__UserRole__RoleId__5812160E">
+          <AssociationSet Name="FK__MemberRol__RoleI__5DCAEF64" Association="Self.FK__MemberRol__RoleI__5DCAEF64">
             <End Role="Roles" EntitySet="Roles" />
             <End Role="MemberRole" EntitySet="MemberRole" />
           </AssociationSet>
-          <AssociationSet Name="FK__UserRole__UserId__571DF1D5" Association="Self.FK__UserRole__UserId__571DF1D5">
-            <End Role="Member" EntitySet="Member" />
-            <End Role="MemberRole" EntitySet="MemberRole" />
+          <AssociationSet Name="FK__Product__Categor__4BAC3F29" Association="Self.FK__Product__Categor__4BAC3F29">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Item" EntitySet="Item" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -269,7 +269,17 @@
           <Property Name="ConsultantId" Type="Int32" />
           <Property Name="GenderId" Type="Int32" />
           <Property Name="PhoneNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Roles" Relationship="Self.MemberRole" FromRole="Member" ToRole="Roles" />
+          <NavigationProperty Name="MemberRoles" Relationship="Self.FK__MemberRol__Membe__5CD6CB2B" FromRole="Member" ToRole="MemberRole" />
+        </EntityType>
+        <EntityType Name="MemberRole">
+          <Key>
+            <PropertyRef Name="MemberRoleId" />
+          </Key>
+          <Property Name="MemberRoleId" Type="Int32" Nullable="false" />
+          <Property Name="MemberId" Type="Int32" />
+          <Property Name="RoleId" Type="Int32" />
+          <NavigationProperty Name="Member" Relationship="Self.FK__MemberRol__Membe__5CD6CB2B" FromRole="MemberRole" ToRole="Member" />
+          <NavigationProperty Name="Role" Relationship="Self.FK__MemberRol__RoleI__5DCAEF64" FromRole="MemberRole" ToRole="Roles" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -277,7 +287,7 @@
           </Key>
           <Property Name="RoleId" Type="Int32" Nullable="false" />
           <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Members" Relationship="Self.MemberRole" FromRole="Roles" ToRole="Member" />
+          <NavigationProperty Name="MemberRoles" Relationship="Self.FK__MemberRol__RoleI__5DCAEF64" FromRole="Roles" ToRole="MemberRole" />
         </EntityType>
         <Association Name="FK__CartItems__CartI__3E52440B">
           <End Role="Cart" Type="Self.Cart" Multiplicity="0..1" />
@@ -315,9 +325,29 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="MemberRole">
-          <End Role="Roles" Type="Self.Role" Multiplicity="*" />
-          <End Role="Member" Type="Self.Member" Multiplicity="*" />
+        <Association Name="FK__MemberRol__Membe__5CD6CB2B">
+          <End Role="Member" Type="Self.Member" Multiplicity="0..1" />
+          <End Role="MemberRole" Type="Self.MemberRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="MemberRole">
+              <PropertyRef Name="MemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__MemberRol__RoleI__5DCAEF64">
+          <End Role="Roles" Type="Self.Role" Multiplicity="0..1" />
+          <End Role="MemberRole" Type="Self.MemberRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="MemberRole">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         <EntityContainer Name="BBOrderEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Carts" EntityType="Self.Cart" />
@@ -325,6 +355,7 @@
           <EntitySet Name="Categories" EntityType="Self.Category" />
           <EntitySet Name="Items" EntityType="Self.Item" />
           <EntitySet Name="Members" EntityType="Self.Member" />
+          <EntitySet Name="MemberRoles" EntityType="Self.MemberRole" />
           <EntitySet Name="Roles" EntityType="Self.Role" />
           <AssociationSet Name="FK__CartItems__CartI__3E52440B" Association="Self.FK__CartItems__CartI__3E52440B">
             <End Role="Cart" EntitySet="Carts" />
@@ -338,9 +369,13 @@
             <End Role="Category" EntitySet="Categories" />
             <End Role="Item" EntitySet="Items" />
           </AssociationSet>
-          <AssociationSet Name="MemberRole" Association="Self.MemberRole">
-            <End Role="Roles" EntitySet="Roles" />
+          <AssociationSet Name="FK__MemberRol__Membe__5CD6CB2B" Association="Self.FK__MemberRol__Membe__5CD6CB2B">
             <End Role="Member" EntitySet="Members" />
+            <End Role="MemberRole" EntitySet="MemberRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK__MemberRol__RoleI__5DCAEF64" Association="Self.FK__MemberRol__RoleI__5DCAEF64">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="MemberRole" EntitySet="MemberRoles" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -429,6 +464,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="MemberRoles">
+            <EntityTypeMapping TypeName="BBOrderModel.MemberRole">
+              <MappingFragment StoreEntitySet="MemberRole">
+                <ScalarProperty Name="MemberRoleId" ColumnName="MemberRoleId" />
+                <ScalarProperty Name="MemberId" ColumnName="MemberId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Roles">
             <EntityTypeMapping TypeName="BBOrderModel.Role">
               <MappingFragment StoreEntitySet="Roles">
@@ -437,14 +481,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="MemberRole" TypeName="BBOrderModel.MemberRole" StoreEntitySet="MemberRole">
-            <EndProperty Name="Roles">
-              <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-            </EndProperty>
-            <EndProperty Name="Member">
-              <ScalarProperty Name="MemberId" ColumnName="MemberId" />
-            </EndProperty>
-          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

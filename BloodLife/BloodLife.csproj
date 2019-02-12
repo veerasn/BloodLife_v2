@@ -249,6 +249,9 @@
     <Compile Include="Models\Member.cs">
       <DependentUpon>BBOrder.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\MemberRole.cs">
+      <DependentUpon>BBOrder.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PATIENT.cs">
       <DependentUpon>LMD.tt</DependentUpon>
     </Compile>
@@ -268,6 +271,12 @@
       <DependentUpon>LMD.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\GenericRepository.cs" />
+    <Compile Include="Repository\GenericUnitOfWork.cs" />
+    <Compile Include="Repository\IRepository.cs" />
+    <Compile Include="Utility\EmailNotification.cs" />
+    <Compile Include="Utility\EncryptDecrypt.cs" />
+    <Compile Include="Utility\UploadContent.cs" />
     <Compile Include="ViewModels\AccountViewModel.cs" />
     <Compile Include="ViewModels\PatientProductViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
