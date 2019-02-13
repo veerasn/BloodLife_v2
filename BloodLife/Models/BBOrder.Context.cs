@@ -12,6 +12,8 @@ namespace BloodLife.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class BBOrderEntities : DbContext
     {
@@ -32,5 +34,14 @@ namespace BloodLife.Models
         public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<MemberRole> MemberRoles { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
+    
+        public virtual ObjectResult<USP_MemberShoppingCartDetails_Result> USP_MemberShoppingCartDetails(Nullable<int> memberId)
+        {
+            var memberIdParameter = memberId.HasValue ?
+                new ObjectParameter("memberId", memberId) :
+                new ObjectParameter("memberId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<USP_MemberShoppingCartDetails_Result>("USP_MemberShoppingCartDetails", memberIdParameter);
+        }
     }
 }

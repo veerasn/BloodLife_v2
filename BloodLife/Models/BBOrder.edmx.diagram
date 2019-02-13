@@ -4,14 +4,15 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="10ff85da163349a0bc2b4f903bdf2904" Name="Diagram1">
-        <EntityTypeShape EntityType="BBOrderModel.Cart" Width="1.5" PointX="8" PointY="6.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="BBOrderModel.CartItem" Width="1.5" PointX="10.25" PointY="1.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="BBOrderModel.Category" Width="1.5" PointX="5.75" PointY="2.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="BBOrderModel.Item" Width="1.5" PointX="8" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="BBOrderModel.Member" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="BBOrderModel.MemberRole" Width="1.5" PointX="3" PointY="2.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="BBOrderModel.Role" Width="1.5" PointX="0.75" PointY="7.625" IsExpanded="true" />
+      <Diagram DiagramId="b752765e9e304801a2ea7dbdb4f1de16" Name="Diagram1">
+        <EntityTypeShape EntityType="BBOrderModel.Cart" Width="1.5" PointX="3" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BBOrderModel.CartItem" Width="1.5" PointX="5.25" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BBOrderModel.Category" Width="1.5" PointX="0.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BBOrderModel.Item" Width="1.5" PointX="3" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BBOrderModel.Member" Width="1.5" PointX="0.75" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BBOrderModel.MemberRole" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BBOrderModel.Role" Width="1.5" PointX="0.75" PointY="8.125" IsExpanded="true" />
+        <AssociationConnector Association="BBOrderModel.FK__Cart__UserID__619B8048" ManuallyRouted="false" />
         <AssociationConnector Association="BBOrderModel.FK__CartItems__CartI__3E52440B" ManuallyRouted="false" />
         <AssociationConnector Association="BBOrderModel.FK__CartItems__Produ__3F466844" ManuallyRouted="false" />
         <AssociationConnector Association="BBOrderModel.FK__Product__Categor__4BAC3F29" ManuallyRouted="false" />

@@ -27,6 +27,7 @@ namespace BloodLife.Models
         public Nullable<int> Urgency { get; set; }
         public string Location { get; set; }
     
+        public virtual Member Member { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CartItem> CartItems { get; set; }
     }

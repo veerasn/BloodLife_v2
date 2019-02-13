@@ -75,5 +75,20 @@ namespace BloodLife.Controllers
                 new SqlParameter("memberId", System.Data.SqlDbType.Int) { Value = memberId }).ToList();
             return View(cd);
         }
+
+        /// <summary>
+        /// Remove Cart Item
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <returns></returns>
+        public ActionResult RemoveCartItem(int productId)
+        {
+            Cart c = _unitOfWork.GetRepositoryInstance<Cart>().GetFirstOrDefaultByParameter(i => i.UserID == memberId && i.CheckedOut == false);
+            CartItem ci = _unitOfWork.GetRepositoryInstance<CartItem>().GetFirstOrDefaultByParameter(i => i.CartID == c.CartID);
+            ci.Quantity = 0;
+            _unitOfWork.GetRepositoryInstance<CartItem>().Update(ci);
+            _unitOfWork.SaveChanges();
+            return RedirectToAction("MyCart");
+        }
     }
 }

@@ -10,7 +10,7 @@
             <PropertyRef Name="CartID" />
           </Key>
           <Property Name="CartID" Type="int" Nullable="false" />
-          <Property Name="UserID" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="DateCreated" Type="datetime" Nullable="false" />
           <Property Name="CheckedOut" Type="bit" Nullable="false" />
           <Property Name="Urgency" Type="int" />
@@ -95,6 +95,18 @@
           <Property Name="RoleId" Type="int" Nullable="false" />
           <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <Association Name="FK__Cart__UserID__619B8048">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="Cart">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__CartItems__CartI__3E52440B">
           <End Role="Cart" Type="Self.Cart" Multiplicity="0..1" />
           <End Role="CartItems" Type="Self.CartItems" Multiplicity="*" />
@@ -155,6 +167,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="USP_MemberShoppingCartDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="memberId" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="BBOrderModelStoreContainer">
           <EntitySet Name="Cart" EntityType="Self.Cart" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CartItems" EntityType="Self.CartItems" Schema="dbo" store:Type="Tables" />
@@ -163,6 +178,10 @@
           <EntitySet Name="Member" EntityType="Self.Member" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MemberRole" EntityType="Self.MemberRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Cart__UserID__619B8048" Association="Self.FK__Cart__UserID__619B8048">
+            <End Role="Member" EntitySet="Member" />
+            <End Role="Cart" EntitySet="Cart" />
+          </AssociationSet>
           <AssociationSet Name="FK__CartItems__CartI__3E52440B" Association="Self.FK__CartItems__CartI__3E52440B">
             <End Role="Cart" EntitySet="Cart" />
             <End Role="CartItems" EntitySet="CartItems" />
@@ -194,11 +213,12 @@
             <PropertyRef Name="CartID" />
           </Key>
           <Property Name="CartID" Type="Int32" Nullable="false" />
-          <Property Name="UserID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
           <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CheckedOut" Type="Boolean" Nullable="false" />
           <Property Name="Urgency" Type="Int32" />
           <Property Name="Location" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Member" Relationship="Self.FK__Cart__UserID__619B8048" FromRole="Cart" ToRole="Member" />
           <NavigationProperty Name="CartItems" Relationship="Self.FK__CartItems__CartI__3E52440B" FromRole="Cart" ToRole="CartItems" />
         </EntityType>
         <EntityType Name="CartItem">
@@ -269,6 +289,7 @@
           <Property Name="ConsultantId" Type="Int32" />
           <Property Name="GenderId" Type="Int32" />
           <Property Name="PhoneNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Carts" Relationship="Self.FK__Cart__UserID__619B8048" FromRole="Member" ToRole="Cart" />
           <NavigationProperty Name="MemberRoles" Relationship="Self.FK__MemberRol__Membe__5CD6CB2B" FromRole="Member" ToRole="MemberRole" />
         </EntityType>
         <EntityType Name="MemberRole">
@@ -289,6 +310,18 @@
           <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="MemberRoles" Relationship="Self.FK__MemberRol__RoleI__5DCAEF64" FromRole="Roles" ToRole="MemberRole" />
         </EntityType>
+        <Association Name="FK__Cart__UserID__619B8048">
+          <End Role="Member" Type="Self.Member" Multiplicity="1" />
+          <End Role="Cart" Type="Self.Cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Member">
+              <PropertyRef Name="MemberId" />
+            </Principal>
+            <Dependent Role="Cart">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__CartItems__CartI__3E52440B">
           <End Role="Cart" Type="Self.Cart" Multiplicity="0..1" />
           <End Role="CartItems" Type="Self.CartItem" Multiplicity="*" />
@@ -357,6 +390,10 @@
           <EntitySet Name="Members" EntityType="Self.Member" />
           <EntitySet Name="MemberRoles" EntityType="Self.MemberRole" />
           <EntitySet Name="Roles" EntityType="Self.Role" />
+          <AssociationSet Name="FK__Cart__UserID__619B8048" Association="Self.FK__Cart__UserID__619B8048">
+            <End Role="Member" EntitySet="Members" />
+            <End Role="Cart" EntitySet="Carts" />
+          </AssociationSet>
           <AssociationSet Name="FK__CartItems__CartI__3E52440B" Association="Self.FK__CartItems__CartI__3E52440B">
             <End Role="Cart" EntitySet="Carts" />
             <End Role="CartItems" EntitySet="CartItems" />
@@ -377,7 +414,16 @@
             <End Role="Roles" EntitySet="Roles" />
             <End Role="MemberRole" EntitySet="MemberRoles" />
           </AssociationSet>
+          <FunctionImport Name="USP_MemberShoppingCartDetails" ReturnType="Collection(BBOrderModel.USP_MemberShoppingCartDetails_Result)">
+            <Parameter Name="memberId" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
+        <ComplexType Name="USP_MemberShoppingCartDetails_Result">
+          <Property Type="String" Name="ProductID" Nullable="false" MaxLength="12" />
+          <Property Type="String" Name="ProductName" Nullable="false" MaxLength="255" />
+          <Property Type="Int32" Name="Quantity" Nullable="true" />
+          <Property Type="Int32" Name="Urgency" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -481,6 +527,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="USP_MemberShoppingCartDetails" FunctionName="BBOrderModel.Store.USP_MemberShoppingCartDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BBOrderModel.USP_MemberShoppingCartDetails_Result">
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Urgency" ColumnName="Urgency" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

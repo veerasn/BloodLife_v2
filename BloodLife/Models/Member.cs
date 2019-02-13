@@ -17,6 +17,7 @@ namespace BloodLife.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Member()
         {
+            this.Carts = new HashSet<Cart>();
             this.MemberRoles = new HashSet<MemberRole>();
         }
     
@@ -39,6 +40,8 @@ namespace BloodLife.Models
         public Nullable<int> GenderId { get; set; }
         public string PhoneNo { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Cart> Carts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MemberRole> MemberRoles { get; set; }
     }
