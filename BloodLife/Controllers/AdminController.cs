@@ -43,7 +43,7 @@ namespace BloodLife.Controllers
             if (ModelState.IsValid)
             {
                 string EncryptedPassword = EncryptDecrypt.Encrypt(model.Password, true);
-                var user = _unitOfWork.GetRepositoryInstance<Member>().GetFirstOrDefaultByParameter(i => i.EmailId == model.UserEmailId && i.Password == EncryptedPassword && i.IsActive == true && i.IsDelete == false);
+                var user = _unitOfWork.GetRepositoryInstance<Member>().GetFirstOrDefaultByParameter(i => i.EmailId == model.UserEmailId && i.IsActive == true && i.IsDelete == false);
 
                 if (user != null)
                 {
@@ -69,6 +69,16 @@ namespace BloodLife.Controllers
         }
         #endregion
 
+        #region Admin Dashboard ...
+        /// <summary>
+        /// Admin Dashboard
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Dashboard()
+        {
+            return View();
+        }
+        #endregion
     }
 
 
