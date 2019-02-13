@@ -28,6 +28,10 @@ namespace BloodLife.ViewModels
 
     public class RegisterViewModel
     {
+        [Required(ErrorMessage = "First name is required")]
+        [StringLength(100, ErrorMessage = "Minimum {2} and Maximum {1} characters are allowed", MinimumLength = 2)]
+        public string FirstName { get; set; }
+
         [Required(ErrorMessage = "Email address is required")]
         [DataType(DataType.EmailAddress)]
         [EmailAddress(ErrorMessage = "Invalid email address")]

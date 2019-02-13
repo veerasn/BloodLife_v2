@@ -21,7 +21,7 @@ namespace BloodLife.Models
         }
     
         public int CartID { get; set; }
-        public string UserID { get; set; }
+        public int UserID { get; set; }
         public System.DateTime DateCreated { get; set; }
         public bool CheckedOut { get; set; }
         public Nullable<int> Urgency { get; set; }

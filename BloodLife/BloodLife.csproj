@@ -165,9 +165,13 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\mainsController.cs" />
+    <Compile Include="Controllers\ShoppingController.cs" />
+    <Compile Include="Filters\ActionFilter.cs" />
+    <Compile Include="Filters\AuthorizeUserFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1254,6 +1258,7 @@
     <Content Include="Views\Admin\_AdminLayout.cshtml" />
     <Content Include="Views\Admin\_AdminMenu.cshtml" />
     <Content Include="Views\Admin\Dashboard.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
     <None Include="Views\mains\Details%28Old%29.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -1284,10 +1289,13 @@
     <Content Include="Views\Shared\_ChooseProductCpt.cshtml" />
     <Content Include="Views\Shared\_ChooseProductPlt.cshtml" />
     <Content Include="Views\Shared\_ChooseProductHla.cshtml" />
+    <Content Include="Views\Shared\_FrontLayout.cshtml" />
+    <Content Include="Views\Shared\_Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="js\" />
+    <Folder Include="Views\Shopping\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
