@@ -1,8 +1,11 @@
 ﻿<!DOCTYPE html>
-
 @using BloodLife.ViewModels
 @using BloodLife.Models
 @model IEnumerable<BloodLife.ViewModels.PatientProductViewModel>
+
+@{
+    Layout = "~/Views/Shared/_Layout_new.cshtml";
+}
 
 <html>
 <head>
@@ -13,27 +16,24 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
+
         html, body, h1, h2, h3, h4, h5 {
             font-family: "Raleway", sans-serif
         }
     </style>
-
     <script type="text/javascript" src="~/Scripts/jquery-3.3.1.min.js"></script>
     <script src="~/Scripts/jquery-3.3.1.min.js"></script>
-    <script type="text/html" src="~/Scripts/chart-2.7.1.min.js"></script>
+    <script type="text/html" src="~/Scripts/chart-2.7.1.min.js">
+    </script>
     <script src="~/Scripts/Chart.js"></script>
     <script scr="~/Scripts/chartjs-plugin-annotation.js"></script>
-
 </head>
-
 <body class="w3-light-grey">
-
     <!-- Top container -->
     <div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
         <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i>  Menu</button>
         <span class="w3-bar-item w3-right">UMMC Blood Transfusion Information System</span>
     </div>
-
     <!-- Sidebar/menu -->
     <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar">
         <br>
@@ -56,13 +56,10 @@
         </div>
     </nav>
 
-
     <!-- Overlay effect when opening sidebar on small screens -->
     <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
-
     <!-- !PAGE CONTENT! -->
     <div class="w3-main" style="margin-left:300px;margin-top:43px;">
-
         <!-- Header -->
         <header class="w3-container" style="padding-top:22px">
             <h5>
@@ -74,7 +71,6 @@
                 </b>
             </h5>
         </header>
-
         <div class="w3-row-padding w3-margin-bottom">
             <div class="w3-third">
                 <div class="w3-container w3-red w3-padding-16">
@@ -118,7 +114,6 @@
                         {
                             <img src="~/Content/img/blood-donation.png" style="width:64px;height:64px;" />
                         }
-
                     </div>
                 </div>
             </div>
@@ -171,7 +166,6 @@
                 </div>
             </div>
         </div>
-
         <!--LMD Results and charts-->
         <!--Render charts for Hgb, Plt, INR and APT-->
         <div class="w3-container">
@@ -200,7 +194,6 @@
                 </div>
             }
         </div>
-
         <!--Hb chart-->
         @if (ViewBag.iHgb > 0)
         {
@@ -270,7 +263,6 @@
                 });
             </script>
         }
-
         <!--Plt chart-->
         @if (ViewBag.iPlt > 0)
         {
@@ -333,7 +325,6 @@
                 });
             </script>
         }
-
         <!--INR chart-->
         @if (ViewBag.iInr > 0)
         {
@@ -396,7 +387,6 @@
                 });
             </script>
         }
-
         <!--APT chart-->
         @if (ViewBag.iApt > 0)
         {
@@ -459,7 +449,6 @@
                 });
             </script>
         }
-
         <!-- Review results and transfusions -->
         <div class="w3-container">
             <div class="panel-group" id="accordion-review">
@@ -582,14 +571,12 @@
                                                     <td>@Html.DisplayFor(modelItem => item.REQDATE)</td>
                                                     <td>@item.PRODCODE</td>
                                                     <td>@item.PRODNUM</td>
-
                                                     <td>
                                                         @if (item.RESERVDATE != null && item.ReservIntDay < 8)
                                                         {
                                                             <img src="~/Content/img/reserve.png" style="vertical-align:top;width:20px;height:20px;" />
                                                             <sup>@item.RESERVDATE.Value.ToString("HH:mm") d:@item.ReservIntDay</sup>
                                                         }
-
                                                         @if (item.XMATCHDATE != null && item.XmatchIntDay < 8)
                                                         {
                                                             <img src="~/Content/img/crossmatch.png" style="vertical-align:top;width:20px;height:20px;" />
@@ -626,7 +613,6 @@
                     <div class="panel-heading">
                         <h5 class="panel-title">
                             <a data-toggle="collapse" data-parent="#accordion-review" href="#collapse3">Platelets (@ViewBag.Plcount)</a>
-
                             @if (ViewBag.Plcount > 0)
                             {
                                 <img src="~/Content/img/gift.png" style="width:16px;height:16px;" /> @ViewBag.PlIssued
@@ -667,7 +653,6 @@
                                                             <img src="~/Content/img/reserve.png" style="vertical-align:top;width:20px;height:20px;" />
                                                             <sup>@item.RESERVDATE.Value.ToString("HH:mm") d:@item.ReservIntDay</sup>
                                                         }
-
                                                         @if (item.XMATCHDATE != null && item.XmatchIntDay < 8)
                                                         {
                                                             <img src="~/Content/img/crossmatch.png" style="vertical-align:top;width:20px;height:20px;" />
@@ -704,7 +689,6 @@
                     <div class="panel-heading">
                         <h5 class="panel-title">
                             <a data-toggle="collapse" data-parent="#accordion-review" href="#collapse4">Plasma products (@ViewBag.Fpcount)</a>
-
                             @if (ViewBag.Fpcount > 0)
                             {
                                 <img src="~/Content/img/gift.png" style="width:16px;height:16px;" /> @ViewBag.FpIssued
@@ -739,14 +723,12 @@
                                                     <td>@Html.DisplayFor(modelItem => item.REQDATE)</td>
                                                     <td>@item.PRODCODE</td>
                                                     <td>@item.PRODNUM</td>
-
                                                     <td>
                                                         @if (item.RESERVDATE != null && item.ReservIntDay < 8)
                                                         {
                                                             <img src="~/Content/img/reserve.png" style="vertical-align:top;width:20px;height:20px;" />
                                                             <sup>@item.RESERVDATE.Value.ToString("HH:mm") d:@item.ReservIntDay</sup>
                                                         }
-
                                                         @if (item.XMATCHDATE != null && item.XmatchIntDay < 8)
                                                         {
                                                             <img src="~/Content/img/crossmatch.png" style="vertical-align:top;width:20px;height:20px;" />
@@ -780,9 +762,7 @@
                 </div>
             </div>
         </div>
-
         <h2></h2>
-
         <!--Tabs for selection of requests-->
         <div class="w3-container">
             <div class="w3-row">
@@ -798,7 +778,6 @@
                 <a href="javacript:void(0)" onclick="openRequest(event, 'Plasma');">
                     <div class="w3-quarter tablink w3-bottombar w3-hover-grey w3-padding">Plasma Products</div>
                 </a>
-
                 <!--Test requests-->
                 <div id="Test" class="w3-container request" style="display:none">
                     <h4>Panel for tests</h4>
@@ -864,7 +843,7 @@
                         <div class="w3-container w3-white">
                             <table class="table">
                                 <tr>
-                                    <td><input type="radio" name="redcell" value="RC1"  onchange="checkIndication(75, @ViewBag.yHb[0], 'redcell')" /></td>
+                                    <td><input type="radio" name="redcell" value="RC1" onchange="checkIndication(75, @ViewBag.yHb[0], 'redcell')" /></td>
                                     <td>Hb &#8804 70g/L in a hemodynamically stable ICU patient.</td>
                                 </tr>
                                 <tr>
@@ -880,11 +859,11 @@
                                     <td>Acute bleeding with hemodynamic instability requiring urgent RBC transfusion.</td>
                                 </tr>
                                 <tr>
-                                    <td><input type="radio" name="redcell" value="RC5" onchange="checkIndication(150, @ViewBag.yHb[0], 'redcell')"/></td>
+                                    <td><input type="radio" name="redcell" value="RC5" onchange="checkIndication(150, @ViewBag.yHb[0], 'redcell')" /></td>
                                     <td>Regular red cell transfusion in a transfusion dependant patient (e.g. thalassaemia major).</td>
                                 </tr>
                                 <tr>
-                                    <td><input type="radio" name="redcell" value="RC6" onchange="checkIndication(150, @ViewBag.yHb[0], 'redcell')"/></td>
+                                    <td><input type="radio" name="redcell" value="RC6" onchange="checkIndication(150, @ViewBag.yHb[0], 'redcell')" /></td>
                                     <td>Others</td>
                                 </tr>
                             </table>
@@ -893,27 +872,25 @@
                 </div>
                 <!--Platelet requests-->
                 <div id="Platelet" class="w3-container request" style="display:none">
-                    @Html.Partial("_ChooseProductPlt")
-                    @Html.Partial("_ChooseProductHla")
+                    @Html.Partial("Shared/_ChooseProductPlt")
+                    @Html.Partial("Shared/_ChooseProductHla")
                 </div>
                 <!--Plasma products and derivatives requests-->
                 <div id="Plasma" class="w3-container request" style="display:none">
                     <h6>
                         Select suitable products and required quantity. Refer to <a href="#"><b>Guidelines for FFP Transfusions</b></a> to aid your transfusion decision.
                     </h6>
-                    @Html.Partial("_ChooseProductFfp")
-                    @Html.Partial("_ChooseProductCpt")
-                    @Html.Partial("_ChooseProductCsp")
-                    @Html.Partial("_ChooseProductRh")
-                    @Html.Partial("_ChooseProductCC3")
-                    @Html.Partial("_ChooseProductCC4")
-                    @Html.Partial("_ChooseProductF8")
-                    @Html.Partial("_ChooseProductF7a")
+                    @Html.Partial("Shared/_ChooseProductFfp")
+                    @Html.Partial("Shared/_ChooseProductCpt")
+                    @Html.Partial("Shared/_ChooseProductCsp")
+                    @Html.Partial("Shared/_ChooseProductRh")
+                    @Html.Partial("Shared/_ChooseProductCC3")
+                    @Html.Partial("Shared/_ChooseProductCC4")
+                    @Html.Partial("Shared/_ChooseProductF8")
+                    @Html.Partial("Shared/_ChooseProductF7a")
                 </div>
             </div>
         </div>
-
-
 
         <br>
         <div class="w3-container w3-dark-grey w3-padding-32">
@@ -929,16 +906,13 @@
                 </div>
             </div>
         </div>
-
         <!-- Footer -->
         <footer class="w3-container w3-padding-16 w3-light-grey">
             <h4>USE BLOOD WISELY</h4>
             <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
         </footer>
-
         <!-- End page content -->
     </div>
-
     <script>
         // Get the Sidebar
         var mySidebar = document.getElementById("mySidebar");
@@ -963,7 +937,6 @@
             overlayBg.style.display = "none";
         }
     </script>
-
     <script>
         //Open and close request tabs
         function openRequest(evt, requestName) {
@@ -980,7 +953,6 @@
             evt.currentTarget.firstElementChild.className += " w3-border-red";
         }
     </script>
-
     <script>
         //Show indication
         function showIndication(val) {
@@ -999,10 +971,9 @@
             document.getElementById(val).style.display = vis;
         }
     </script>
-
     <script>
         //Validate radio-button for red cell indications
-        function checkIndication(a,b,c) {
+        function checkIndication(a, b, c) {
             var radios = document.getElementsByName(c);
             var fback;
             for (var i = 0; i < radios.length; i++) {
@@ -1024,11 +995,9 @@
             }
         }
     </script>
-
     <!--script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></!--script-->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-
 
 </body>
 </html>

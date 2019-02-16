@@ -316,6 +316,12 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\custom.css" />
     <Content Include="Content\img\blood-sample-valid.png" />
+    <Content Include="Content\img\cd-icon-close.svg" />
+    <Content Include="Content\img\cd-icon-email.svg" />
+    <Content Include="Content\img\cd-icon-menu.svg" />
+    <Content Include="Content\img\cd-icon-password.svg" />
+    <Content Include="Content\img\cd-icon-username.svg" />
+    <Content Include="Content\img\cd-logo.svg" />
     <Content Include="Content\img\funnel.png" />
     <Content Include="Content\img\ok.png" />
     <Content Include="Content\img\blood-bag.png" />
@@ -339,10 +345,18 @@
     <Content Include="Content\img\warning.png" />
     <Content Include="Content\w3.css" />
     <Content Include="CSS\admin_stylesheet.css" />
+    <Content Include="CSS\CustomStyleSheet.css" />
+    <Content Include="CSS\login.demo.css" />
+    <Content Include="CSS\jquery.dataTables.css" />
+    <Content Include="CSS\owl.carousel.css" />
+    <Content Include="CSS\login.style.css" />
+    <Content Include="CSS\stylesheet.css" />
     <Content Include="CSS\sweetalert.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="js\main.js" />
+    <Content Include="js\placeholders.min.js" />
     <Content Include="Models\BBOrder.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>BBOrder.edmx</DependentUpon>
@@ -415,6 +429,8 @@
     <Content Include="Scripts\Chart.js" />
     <Content Include="Scripts\Chart.min.js" />
     <Content Include="Scripts\chartjs-plugin-annotation.js" />
+    <Content Include="Scripts\CustomFunction.js" />
+    <Content Include="Scripts\datepicker.js" />
     <Content Include="Scripts\errors.json" />
     <Content Include="Scripts\angular.min.js.map" />
     <Content Include="Scripts\angular-touch.min.js.map" />
@@ -486,10 +502,14 @@
       <DependentUpon>BBOrder.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\function.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
+    <Content Include="Scripts\jquery-ui.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\owl.carousel.min.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
@@ -1282,23 +1302,23 @@
     <Content Include="Views\mains\Index%28Old%29.cshtml" />
     <Content Include="Views\Shared\LongDate.cshtml" />
     <Content Include="Views\mains\Index.cshtml" />
-    <Content Include="Views\Shared\_ChooseProductRh.cshtml" />
-    <Content Include="Views\Shared\_ChooseProductCc3.cshtml" />
-    <Content Include="Views\Shared\_ChooseProductCc4.cshtml" />
-    <Content Include="Views\Shared\_ChooseProductF8.cshtml" />
-    <Content Include="Views\Shared\_ChooseProductF7a.cshtml" />
-    <Content Include="Views\Shared\_ChooseProductFfp.cshtml" />
-    <Content Include="Views\Shared\_ChooseProductCsp.cshtml" />
-    <Content Include="Views\Shared\_ChooseProductCpt.cshtml" />
-    <Content Include="Views\Shared\_ChooseProductPlt.cshtml" />
-    <Content Include="Views\Shared\_ChooseProductHla.cshtml" />
+    <Content Include="Views\mains\Shared\_ChooseProductRh.cshtml" />
+    <Content Include="Views\mains\Shared\_ChooseProductCc3.cshtml" />
+    <Content Include="Views\mains\Shared\_ChooseProductCc4.cshtml" />
+    <Content Include="Views\mains\Shared\_ChooseProductF8.cshtml" />
+    <Content Include="Views\mains\Shared\_ChooseProductF7a.cshtml" />
+    <Content Include="Views\mains\Shared\_ChooseProductFfp.cshtml" />
+    <Content Include="Views\mains\Shared\_ChooseProductCsp.cshtml" />
+    <Content Include="Views\mains\Shared\_ChooseProductCpt.cshtml" />
+    <Content Include="Views\mains\Shared\_ChooseProductPlt.cshtml" />
+    <Content Include="Views\mains\Shared\_ChooseProductHla.cshtml" />
     <Content Include="Views\Shared\_FrontLayout.cshtml" />
     <Content Include="Views\Shared\_Login.cshtml" />
     <Content Include="Views\Shopping\MyCart.cshtml" />
+    <Content Include="Views\Shared\_Layout_new.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="js\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
